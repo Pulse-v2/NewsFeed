@@ -1,0 +1,27 @@
+.pagination{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    padding-left: 0;
+}
+.pagination > li{
+    list-style: none;
+    padding: 5px;
+    margin: 5px;
+    border: 2px solid #9a9fa5;
+    border-radius: 25%;
+    box-shadow: 1px 1px 1px #9a9fa5;
+    cursor: pointer;
+    user-select: none;
+}
+.pagination > .active {
+    border: 2px solid #47494d;
+    box-shadow: 2px 2px 2px #47494d;
+}
+li > a{
+    color: #adadad;
+}
+.active > a{
+    color: #212932;
+}

@@ -6,7 +6,6 @@ import {Link} from "react-router-dom";
 import {useState} from "react";
 
 export type Props = {
-    key: string,
     urlToImage: string,
     title: string,
     author: string,
@@ -26,8 +25,7 @@ function trimText(text: string, maxLength: number) {
 
 
 export function NewsFeedItem(props: Props) {
-    const [article, ] = useState<Props>(props)
-    // const {urlToImage, title, author, description, publishedAt, url} = props
+    const article = props
     const time = new Date(article.publishedAt)
     const changeDateFormat = (t: Date) => {
         const addZero = (n: number) => {
