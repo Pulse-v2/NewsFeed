@@ -1,3 +1,10 @@
+*{
+  color: #212932;
+  font-family: 'Noto Sans', sans-serif!important;
+  font-size: 14px;
+  text-decoration: none;
+}
+
 .App {
   text-align: center;
 }
