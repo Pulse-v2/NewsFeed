@@ -3,27 +3,40 @@ import SearchIcon from '@mui/icons-material/Search';
 import {useEffect, useState} from "react";
 
 export type Props = {
-    setSearch: (search: string) => void
+    clearSearch: boolean;
+    setClearSearch: (clear: boolean) => void;
+    setClearFilter: (clear: boolean) => void;
+    setSearch: (search: string) => void;
 }
 
 export function SearchInput(props: Props) {
-    const { setSearch} = props
+    const {clearSearch, setClearSearch, setClearFilter, setSearch} = props
     const [searchValue, setSearchValue] = useState('')
     useEffect(() => {
-        setSearch(searchValue)
-    }, [searchValue])
+        if (!clearSearch) {
+            setSearch(searchValue);
+        } else {
+            setSearch('');
+            setSearchValue('');
+            setClearSearch(false);
+        }
+    }, [clearSearch, searchValue])
     return (
         <Grid container className={'search-input__container'}>
             <Grid item>
                 <TextField
                     className={'search-input__textfield'}
-                    id="outlined-start-adornment"
+                    id="search-input"
                     size={'small'}
                     placeholder={'Search article'}
                     value={searchValue}
-                    onChange={(e) => {setSearchValue(e.target.value)}}
+                    onChange={(e) => {
+                        setSearchValue(e.target.value)
+                        setClearFilter(true)
+
+                    }}
                     InputProps={{
-                        startAdornment: <InputAdornment position="start"><SearchIcon /></InputAdornment>,
+                        startAdornment: <InputAdornment position="start"><SearchIcon/></InputAdornment>,
                     }}
                 />
             </Grid>

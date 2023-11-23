@@ -1,47 +1,53 @@
-import useGetData from "../hooks/useGetData";
-import {useEffect, useState} from "react";
+import useGetArticles from "../hooks/useGetArticles";
+import {useCallback, useEffect, useState} from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {Container} from "@mui/material";
-import TopHeadline from "../components/TopHeadline";
-import NewsFeedHeader from "../components/NewsFeedHeader";
-import Pagination from "../components/Pagination";
+import TopHeadline from "../components/NewsFeed/TopHeadline";
+import NewsFeedHeader from "../components/NewsFeed/NewsFeedHeader";
+import NewsFeedContainerWithPagination from "../components/NewsFeed/NewsFeedContainerWithPagination";
+import './homePage.css';
 
 export function HomePageComponent() {
     const [search, setSearch] = useState('')
     const [country, setCountry] = useState('')
     const [category, setCategory] = useState('')
-    const [data] = useGetData()
-    const [newData, setNewData] = useState([])
-    const [currentPage, setCurrentPage] = useState(0);
-    const itemsPerPage = 5; // Adjust the number of items per page as needed
+    const [articles] = useGetArticles()
+    const [newArticles, setNewArticles] = useState([])
+    const [, setCurrentPage] = useState(0);
 
-    const getData = async (notEmptyQuery: boolean, search?: string, country?: string, category?: string) => {
-        if (search) {
-            await data(notEmptyQuery, search).then((data) => {
-                return setNewData(data.data.articles);
-            });
+    const getArticles = useCallback(async (notEmptyQuery: boolean, search?: string, country?: string, category?: string) => {
+        try {
+            let data;
+            if (search) {
+                data = await articles(notEmptyQuery, search);
+            } else if (country || category) {
+                data = await articles(notEmptyQuery, '', country, category);
+            }
 
+            if (data) {
+                setNewArticles(data.data.articles);
+            }
+        } catch (error) {
+            console.error("Error fetching articles", error);
         }
-        if (country || category) {
-            await data(notEmptyQuery, '', country, category).then((data) => {
-                return setNewData(data.data.articles);
-            });
-        }
-
-    }
-    useEffect(() => {
-        if (search.length > 1){
-            getData(true, search)
-        }
-        if (country || category) {
-            getData(false, '', country, category)
-        }
-    }, [search, country, category])
-
+    }, [articles]);
     useEffect(() => {
         setSearch('')
     }, [category, country])
+
+    useEffect(() => {
+        setCategory('')
+        setCountry('')
+    }, [search])
+    useEffect(() => {
+        if (search !== '') {
+            getArticles(true, search)
+        }
+        if (country || category) {
+            getArticles(false, '', country, category)
+        }
+    }, [search, country, category])
 
     const handlePageChange = (selectedPage: number) => {
         setCurrentPage(selectedPage);
@@ -50,11 +56,10 @@ export function HomePageComponent() {
         <>
             <Header/>
             <TopHeadline setSearch={setSearch} setCountry={setCountry} setCategory={setCategory}/>
-            <Container fixed>
+            <Container fixed className={'main-container'}>
                 <NewsFeedHeader/>
-                <Pagination
-                    data={newData}
-                    itemsPerPage={itemsPerPage}
+                <NewsFeedContainerWithPagination
+                    data={newArticles}
                     onPageChange={handlePageChange}
                 />
             </Container>

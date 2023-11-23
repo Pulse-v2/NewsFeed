@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import HomePageComponent from "./shared/features/HomePage";
-import NewsItemPageComponent from "./shared/features/NewsItemPage";
+import NewsItemPageComponent from "./shared/features/ArticlePage";
 
 import '@fontsource/noto-sans/400.css';
 import '@fontsource/noto-sans/500.css';

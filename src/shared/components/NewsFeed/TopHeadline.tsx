@@ -1,44 +1,54 @@
 import {Container, FormControl, Grid, Typography} from "@mui/material";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import SearchInput from "./Search-input";
+import SearchInput from "./SearchInput";
 import Filter from "./Filter";
-import {useState} from "react";
-import './topHeadline.css'
+import {useEffect, useState} from "react";
 
 export type Props = {
-    setSearch: (search: string) => void
-    setCountry: (search: string) => void
+    setSearch: (search: string) => void,
+    setCountry: (search: string) => void,
     setCategory: (search: string) => void
 }
 
 export function TopHeadline(props: Props) {
     const {setSearch, setCountry, setCategory} = props;
     const [isOpen, setisOpen] = useState(false);
-    const [countryValue, setCountryValue] = useState('')
-    const [categoryValue, setCategoryValue] = useState('')
+    const [clearSearch, setClearSearch] = useState(false);
+    const [clearFilter, setClearFilter] = useState(false);
+    const [countryValue, setCountryValue] = useState('');
+    const [categoryValue, setCategoryValue] = useState('');
     const toggling = (): void => setisOpen(!isOpen);
 
     const handleChangeCategory = (event: SelectChangeEvent) => {
         setCategoryValue(event.target.value);
         setCategory(event.target.value);
+        setClearSearch(true);
     };
     const handleChangeCountry = (event: SelectChangeEvent) => {
         setCountryValue(event.target.value);
         setCountry(event.target.value);
+        setClearSearch(true);
     };
+    useEffect(() => {
+        if (clearFilter) {
+            setCountryValue('');
+            setCategoryValue('');
+            setisOpen(false)
+            setClearFilter(false);
+        }
+    }, [clearFilter]);
     return (
         <Container>
-            <Grid container className={'top-headline__container'}>
+            <Grid container marginBottom={'22px'}>
                 <Grid item xs={8}>
                     <Typography
-                        className={'top-headline__title'}
                         variant='h4'>
                         {'Formula Top Headlines'}
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <SearchInput setSearch={setSearch}/>
+                    <SearchInput clearSearch={clearSearch} setClearFilter={setClearFilter} setClearSearch={setClearSearch} setSearch={setSearch}/>
                 </Grid>
                 <Grid item xs={1}>
                     <Filter onClick={toggling}/>
@@ -51,13 +61,11 @@ export function TopHeadline(props: Props) {
                         <Select
                             value={categoryValue}
                             onChange={handleChangeCategory}
-                            displayEmpty
                             id={'category'}
+                            displayEmpty
                             size={'small'}
                             inputProps={{ 'aria-label': 'Without label' }}>
-                            <MenuItem disabled value="">
-                                Select
-                            </MenuItem>
+                            <MenuItem disabled value={''}>Select</MenuItem>
                             <MenuItem value={'business'}>Business</MenuItem>
                             <MenuItem value={'general'}>General</MenuItem>
                             <MenuItem value={'entertainment'}>Entertainment</MenuItem>
@@ -72,13 +80,11 @@ export function TopHeadline(props: Props) {
                         <Select
                             value={countryValue}
                             onChange={handleChangeCountry}
-                            displayEmpty
                             id={'country'}
+                            displayEmpty
                             size={'small'}
                             inputProps={{ 'aria-label': 'Without label' }}>
-                            <MenuItem disabled value="">
-                                Select
-                            </MenuItem>
+                            <MenuItem disabled value={''}>Select</MenuItem>
                             <MenuItem value={'gb'}>United Kingdom</MenuItem>
                             <MenuItem value={'ua'}>Ukraine</MenuItem>
                             <MenuItem value={'de'}>Germany</MenuItem>

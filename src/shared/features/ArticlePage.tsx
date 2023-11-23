@@ -30,10 +30,10 @@ export function NewsItemPageComponent() {
             <Header/>
             <Container fixed>
                 <Grid container>
-                    <Grid item xs={0.3} className={'news-item-page__back-button__container'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} paddingTop={'5px'} marginBottom={'38px'}>
+                    <Grid item xs={0.3} className={'news-item-page__back-button__container'} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} paddingTop={'5px'} marginRight={'12px'} marginBottom={'38px'}>
                         <Link to={{pathname: '/'}}><ArrowBackIcon/></Link>
                     </Grid>
-                    <Grid item xs={11.7} marginBottom={'38px'}>
+                    <Grid item xs={11.5} marginBottom={'38px'}>
                         <Typography fontSize={'22px'}>
                             {data.title}
                         </Typography>
@@ -72,7 +72,7 @@ export function NewsItemPageComponent() {
                 </Grid>
                 <Grid>
                     <Typography color={'rgba(33, 41, 50, 0.5)'} marginBottom={'60px'}>
-                        {data.author.includes(',') ? `Authors: ${data.author}` : `Author: ${data.author}`}
+                        {data.author ? (data.author.includes(',') ? `Authors: ${data.author}` : `Author: ${data.author}`) : `Author: Unknown`}
                     </Typography>
                 </Grid>
             </Container>

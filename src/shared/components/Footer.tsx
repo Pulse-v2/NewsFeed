@@ -6,9 +6,9 @@ export function Footer() {
     const theme = useTheme();
 
     return (
-        <Container>
-            <Grid container spacing={2} justifyContent={"space-between"} bgcolor={theme.palette.background.default}>
-                <Grid item xs={3}>
+        <Container fixed>
+            <Grid container justifyContent={"space-between"} marginBottom={'12px'}>
+                <Grid item xs={5}>
                     <Typography
                         fontWeight={'light'}
                         variant='h6'>
@@ -16,16 +16,16 @@ export function Footer() {
                     </Typography>
                     <Typography
                         fontWeight={'light'}
-                        variant='h6'>
+                        fontSize={'13px'}>
                         {'©Formula 2023. All Rights Reserved'}
                     </Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2} display={'flex'} flexDirection={'row'} justifyContent={'space-around'} alignItems={'flex-end'}>
                     <MailOutlineSharpIcon/>
                     <Typography
                         fontFamily='Noto Sans'
                         fontWeight={'light'}
-                        variant='h6'
+                        fontSize={'13px'}
                         color={theme.palette.text.primary}>
                         {'info@formula.com'}
                     </Typography>
