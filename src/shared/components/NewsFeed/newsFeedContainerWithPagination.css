@@ -23,6 +23,3 @@ li > a{
 .active > a{
     color: #212932;
 }
-fieldset{
-    border: none!important;
-}
