@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import {Container} from "@mui/material";
 import TopHeadline from "../components/NewsFeed/TopHeadline";
 import NewsFeedHeader from "../components/NewsFeed/NewsFeedHeader";
+import Plug from "../components/Plug";
 import NewsFeedContainerWithPagination from "../components/NewsFeed/NewsFeedContainerWithPagination";
 import './homePage.css';
 
@@ -57,11 +58,17 @@ export function HomePageComponent() {
             <Header/>
             <TopHeadline setSearch={setSearch} setCountry={setCountry} setCategory={setCategory}/>
             <Container fixed className={'main-container'}>
-                <NewsFeedHeader/>
-                <NewsFeedContainerWithPagination
-                    data={newArticles}
-                    onPageChange={handlePageChange}
-                />
+                {newArticles.length ? (
+                    <>
+                        <NewsFeedHeader/>
+                        <NewsFeedContainerWithPagination
+                            data={newArticles}
+                            onPageChange={handlePageChange}
+                        />
+                    </>
+                ) : (
+                    <Plug/>
+                )}
             </Container>
             <Footer/>
         </>
